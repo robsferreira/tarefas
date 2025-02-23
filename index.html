@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Pontuação</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pontuação do Mês</h1>
+        
+        <!-- Formulário para adicionar tarefas -->
+        <form id="form-tarefa">
+            <label for="filho">Filho:</label>
+            <select id="filho" name="filho" required>
+                <option value="" disabled selected>Selecione o filho</option>
+                <option value="AnaClara">AnaClara</option>
+                <option value="Nicolas">Nicolas</option>
+                <!-- <option value="Pedro">Pedro</option> -->
+            </select>
+            
+            <label for="tarefa">Tarefa:</label>
+            <input type="text" id="tarefa" name="tarefa" placeholder="Ex: Arrumar o quarto" required>
+            
+            <label for="pontos">Pontos:</label>
+            <input type="number" id="pontos" name="pontos" placeholder="Ex: +5 ou -3" required>
+            
+            <button type="submit">Adicionar Tarefa</button>
+        </form>
+
+        <!-- Exibição dos pontos e histórico -->
+        <div class="resultado">
+            <h2>Total de Pontos: <span id="total-pontos">0</span></h2>
+            <h3>Histórico de Tarefas:</h3>
+            <ul id="historico-tarefas"></ul>
+        </div>
+
+        <!-- Botão para resetar pontos -->
+        <button id="resetar-pontos">Resetar Pontos</button>
+
+        <!-- Seção para visualizar pontos por filho -->
+        <div class="pontos-por-filho">
+            <h2>Pontos por Filho</h2>
+            <div id="pontos-filhos">
+                Aqui serão exibidos os pontos de cada filho 
+            </div>
+        </div>
+    </div>
+
+<!-- Botão "Voltar ao Topo" -->
+<button id="btn-topo" title="Voltar ao topo">↑</button>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
