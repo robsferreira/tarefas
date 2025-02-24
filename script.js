@@ -22,6 +22,30 @@ function exibirHistorico() {
     });
 }
 
+// Função para carregar os pontos por filho
+function carregarPontosPorFilho() {
+    fetch('carregar_pontos.php')
+        .then(response => response.json())
+        .then(data => {
+            const pontosFilhos = document.getElementById('pontos-filhos');
+            pontosFilhos.innerHTML = ''; // Limpa o conteúdo anterior
+
+            // Exibe os pontos de cada filho
+            for (const [filho, pontos] of Object.entries(data)) {
+                const card = document.createElement('div');
+                card.className = 'filho-card';
+                card.innerHTML = `
+                    <h3>${filho}</h3>
+                    <p>Total de Pontos: ${pontos}</p>
+                `;
+                pontosFilhos.appendChild(card);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar pontos:', error);
+        });
+}
+
 // Adiciona uma nova tarefa ao histórico
 document.getElementById('form-tarefa').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -48,14 +72,24 @@ document.getElementById('form-tarefa').addEventListener('submit', function (e) {
     // Limpa o formulário
     document.getElementById('form-tarefa').reset();
 
-    // Envia os dados para o PHP (opcional, se ainda quiser salvar no servidor)
+    // Envia os dados para o PHP
     fetch('salvar_pontos.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ filho, tarefa, pontos }),
+    })
+    .then(() => {
+        // Atualiza os pontos por filho após salvar a tarefa
+        carregarPontosPorFilho();
     });
+});
+
+// Carrega o histórico e os pontos por filho ao carregar a página
+document.addEventListener('DOMContentLoaded', function () {
+    exibirHistorico();
+    carregarPontosPorFilho();
 });
 
 // Função para resetar os pontos e o histórico
@@ -66,67 +100,17 @@ document.getElementById('resetar-pontos').addEventListener('click', function () 
         localStorage.removeItem('historicoTarefas'); // Remove o histórico do localStorage
         exibirHistorico(); // Atualiza a exibição do histórico
 
-        // Envia uma requisição para o PHP resetar o arquivo (opcional)
+        // Envia uma requisição para o PHP resetar o arquivo
         fetch('resetar_pontos.php', {
             method: 'POST',
         })
         .then(response => response.text())
         .then(message => {
             alert(message); // Exibe a mensagem de sucesso
+            carregarPontosPorFilho(); // Atualiza a exibição dos pontos
         })
         .catch(error => {
             console.error('Erro ao resetar pontos:', error);
         });
     }
-});
-
-// Carrega o histórico ao carregar a página
-document.addEventListener('DOMContentLoaded', function () {
-    exibirHistorico(); // Exibe o histórico salvo
-    carregarPontosPorFilho(); // Carrega os pontos por filho (se ainda estiver usando)
-});
-
-// Função para carregar os pontos por filho
-function carregarPontosPorFilho() {
-    fetch('carregar_pontos.php')
-        .then(response => response.json())
-        .then(data => {
-            const pontosFilhos = document.getElementById('pontos-filhos');
-            pontosFilhos.innerHTML = ''; // Limpa o conteúdo anterior
-
-            // Exibe os pontos de cada filho
-            for (const [filho, pontos] of Object.entries(data)) {
-                const card = document.createElement('div');
-                card.className = 'filho-card';
-                card.innerHTML = `
-                    <h3>${filho}</h3>
-                    <p>Total de Pontos: ${pontos}</p>
-                `;
-                pontosFilhos.appendChild(card);
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao carregar pontos:', error);
-        });
-}
-
-// Carrega os pontos por filho ao carregar a página
-document.addEventListener('DOMContentLoaded', carregarPontosPorFilho);
-
-// Mostra ou oculta o botão "Voltar ao Topo" conforme o scroll
-window.onscroll = function () {
-    const btnTopo = document.getElementById('btn-topo');
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        btnTopo.style.display = 'block';
-    } else {
-        btnTopo.style.display = 'none';
-    }
-};
-
-// Rola a página de volta ao topo com animação suave
-document.getElementById('btn-topo').addEventListener('click', function () {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth' // Rolagem suave
-    });
 });

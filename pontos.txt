@@ -1,2 +1,4 @@
-Filho: Nicolas, Tarefa: Arrumar os Brinquedos, Pontos: 5
-Filho: AnaClara, Tarefa: Cuidados com os Gatos, Pontos: 7
+Filho: Nicolas, Tarefa: Arrumar os Brinquedos, Pontos: 6
+Filho: AnaClara, Tarefa: Cuidados com os Gatos, Pontos: 8
+Filho: Nicolas, Tarefa: Fazer lição de casa, Pontos: 10
+Filho: Nicolas, Tarefa: Não fez lição de casa, Pontos: -12
